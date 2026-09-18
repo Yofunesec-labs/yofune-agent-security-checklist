@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:yofune:yasc:profiles:0.1",
+  "title": "YASC Security Profiles",
+  "type": "object",
+  "required": [
+    "metadata",
+    "profiles"
+  ],
+  "properties": {
+    "profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "target",
+          "baseline_controls",
+          "requirements"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "baseline_controls": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^YAS-[0-9]{2}\\.[0-9]{2}$"
+            }
+          },
+          "requirements": {
+            "type": "array",
+            "minItems": 1
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+evidence_manifest:
+  schema_version: "1.0"
+  manifest_id: "YEM-EXAMPLE-001"
+  generated_at: "2026-09-18T00:00:00Z"
+  case_id: "YAC-EXAMPLE-001"
+  collector: "YASC verification team"
+  hash_algorithm: "sha256"
+  artifacts:
+    - artifact_id: "EV-001"
+      type: "policy-decision"
+      path: "evidence/policy-decision.json"
+      sha256: "0000000000000000000000000000000000000000000000000000000000000000"
+      size_bytes: 0
+      trace_id: "trace-example"
+      source_component: "policy-engine"
+      collected_at: "2026-09-18T00:00:00Z"
+      sensitivity: "confidential"
+      redaction: "template placeholder; replace with real artifact metadata"
+      notes: "Example only; regenerate hashes from collected evidence."

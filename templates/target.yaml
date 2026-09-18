@@ -1,0 +1,22 @@
+target:
+  schema_version: "1.0"
+  name: Example Agent
+  version: "replace-me"
+  model: "replace-me"
+  policy_version: "replace-me"
+  deterministic: false
+  agent:
+    type: http-agent
+    url: http://127.0.0.1:8080/agent
+    method: POST
+    timeout_seconds: 30
+    verify_tls: true
+    headers:
+      Authorization: "Bearer ${YASC_AGENT_TOKEN}"
+    request:
+      input_field: message
+      static: {}
+    response:
+      text_path: text
+      tool_calls_path: tool_calls
+      events_path: events

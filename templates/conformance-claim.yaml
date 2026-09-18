@@ -1,0 +1,29 @@
+conformance_claim:
+  schema_version: "1.0"
+  claim_id: "YCC-EXAMPLE-001"
+  yasc_version: "1.0.0"
+  system:
+    name: "Example enterprise email agent"
+    version: "2026.09.18"
+  scope:
+    environment: "staging"
+    workflow: "external email send"
+  profiles:
+    - "mcp"
+  control_results:
+    - control_id: "YAS-04.03"
+      status: "pass"
+      achieved_yal: "YAL-4"
+      assurance_case_id: "YAC-EXAMPLE-001"
+  exclusions:
+    - "production customer mailboxes"
+  known_gaps:
+    - "No claim is made for untested tools outside the named workflow."
+  statement: "Within the stated staging scope and recorded system baseline, YAS-04.03 met its pass criteria and achieved YAL-4 based on the referenced assurance case."
+  issued_at: "2026-09-18T00:00:00Z"
+  valid_until: "2026-12-18T00:00:00Z"
+  revalidation_triggers:
+    - "material model, policy, tool, MCP, identity, or approval-flow change"
+  issuer: "Example assessment owner"
+  reviewer: "Example independent reviewer"
+  independence: "independent-internal"

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "YASC Assessment",
+  "type": "object",
+  "required": ["assessment"],
+  "properties": {
+    "assessment": {
+      "type": "object",
+      "required": ["schema_version", "yasc_version", "system", "scope", "results"],
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "yasc_version": {"type": "string"},
+        "reference_snapshot": {"type": "string"},
+        "system": {"type": "object", "required": ["name", "environment"]},
+        "scope": {"type": "object"},
+        "results": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["applicability", "status", "achieved_assurance", "evidence_refs"],
+            "properties": {
+              "applicability": {"enum": ["applicable", "not-applicable", "unknown"]},
+              "status": {"enum": ["pass", "fail", "partial", "not-tested", "not-applicable"]},
+              "achieved_assurance": {"enum": ["YAL-0", "YAL-1", "YAL-2", "YAL-3", "YAL-4"]},
+              "evidence_refs": {"type": "array"}
+            }
+          }
+        }
+      }
+    }
+  }
+}

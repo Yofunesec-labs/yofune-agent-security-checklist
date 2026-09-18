@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "yasc-verification-harness"
+version = "1.0.0"
+description = "Yofune Agent Security Checklist verification harness"
+readme = "harness/README.md"
+requires-python = ">=3.10"
+license = {text = "Apache-2.0"}
+authors = [{name="Yofune Security Research", email="contact@yofunesec.com"}]
+dependencies = [
+  "PyYAML>=6.0,<7",
+  "jsonschema>=4.20,<5",
+  "requests>=2.31,<3",
+  "Jinja2>=3.1,<4",
+]
+
+[project.optional-dependencies]
+pdf = ["WeasyPrint>=61,<70"]
+dev = ["pytest>=8,<10", "WeasyPrint>=61,<70"]
+
+[project.scripts]
+yasc = "yasc_harness.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["harness"]
+include = ["yasc_harness*"]

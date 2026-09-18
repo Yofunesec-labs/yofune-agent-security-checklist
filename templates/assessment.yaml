@@ -1,0 +1,33 @@
+assessment:
+  schema_version: "1.0"
+  yasc_version: "1.0.0"
+  reference_snapshot: "2026-09-18"
+  system:
+    name: "REPLACE_ME"
+    owner: "REPLACE_ME"
+    environment: "test"
+    description: ""
+  scope:
+    agents: []
+    tenants: []
+    tools_and_mcp_servers: []
+    data_stores: []
+    execution_surfaces: []
+    exclusions: []
+  assessor:
+    organization: ""
+    name: ""
+    assessment_date: "YYYY-MM-DD"
+  results:
+    YAS-04.03:
+      applicability: "applicable"
+      status: "not-tested"
+      achieved_assurance: "YAL-0"
+      evidence_refs: []
+      exceptions: []
+      notes: ""
+  evidence_index: []
+  summary:
+    critical_failures: []
+    accepted_risks: []
+    next_actions: []

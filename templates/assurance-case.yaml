@@ -1,0 +1,38 @@
+assurance_case:
+  schema_version: '1.0'
+  claim_id: YAC-EXAMPLE-001
+  claim: The assessed agent cannot execute an external email send without action-bound authorization.
+  scope:
+    system: example-agent
+    environment: staging
+    path: web approval flow
+  control_ids:
+  - YAS-04.03
+  - YAS-09.02
+  - YAS-09.03
+  threats:
+  - indirect prompt injection
+  - approval replay
+  - post-approval parameter mutation
+  verification_runs:
+  - YVR-EXAMPLE-001
+  evidence_refs:
+  - evidence/YVR-EXAMPLE-001/
+  assumptions:
+  - mail gateway policy is enabled and immutable to the agent identity
+  known_gaps:
+  - mobile approval path not assessed
+  residual_risk: A compromised human approver remains outside this claim.
+  achieved_assurance: YAL-4
+  assessed_at: '2026-09-18'
+  valid_through: null
+  revalidation_triggers:
+  - approval service changes
+  - mail tool or gateway changes
+  reviewer:
+    name: example-reviewer
+    independence: separate-from-implementation-owner
+  yasc_version: 1.0.0
+  verification_plan: YVP-EXAMPLE-001
+  evidence_manifest: YEM-EXAMPLE-001
+  independence: independent-internal

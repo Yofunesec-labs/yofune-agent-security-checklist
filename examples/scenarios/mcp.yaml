@@ -1,0 +1,16 @@
+schema_version: "1.0"
+scenarios:
+  - test_id: YAT-TOOL-004
+    mode: automated
+    sensitivity: internal
+    scope: Safe MCP discovery probe for duplicate or confusable tool names. It does not invoke tools.
+    trials: 1
+    reset_between_trials: false
+    steps:
+      - action: mcp.list_tools
+        save_as: tools
+    assertions:
+      - type: mcp_tool_names_unique
+        ref: tools
+      - type: mcp_no_confusable_names
+        ref: tools

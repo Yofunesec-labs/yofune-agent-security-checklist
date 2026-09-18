@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>YASC — Yofune Agent Security Checklist</title>
+  <meta name="description" content="Evidence-driven security baseline for AI agents." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header>
+  <div class="brand"><img src="yofune-mark.png" alt="Yofune"><strong>YASC</strong><span>Verifiable Agent Security</span></div>
+  <div class="header-actions"><a class="header-link" href="release.html">v1.0.0 Release</a><button id="export">Export assessment</button><button id="reset" class="secondary">Reset</button></div>
+</header>
+<main>
+<section class="hero">
+  <p class="eyebrow">V1.0.0 STABLE · 2026-09-18 SNAPSHOT</p>
+  <h1>Yofune Agent Security Checklist</h1>
+  <p>A verifiable security baseline for AI agents: controls, tests, evidence, assurance, and revalidation.</p>
+  <div id="stats"></div>
+  <div id="progress" class="progress"></div>
+</section>
+<section class="filters">
+  <input id="q" placeholder="Search controls, threats, evidence…" />
+  <select id="domain"><option value="">All domains</option></select>
+  <select id="severity"><option value="">All severities</option><option>critical</option><option>high</option><option>medium</option><option>low</option></select>
+  <select id="yal"><option value="">All target YAL</option><option>YAL-4</option><option>YAL-3</option><option>YAL-2</option><option>YAL-1</option></select>
+</section>
+<section id="controls" class="grid"></section>
+</main>
+<footer>Assessment state is stored only in this browser · Chengdu Yofune Ariake Technology Co., Ltd. · yofunesec.com · contact@yofunesec.com · Docs CC BY 4.0 · Code/data Apache-2.0</footer>
+<script src="app.js"></script>
+</body></html>

@@ -1,0 +1,13 @@
+target:
+  schema_version: "1.0"
+  name: YASC MCP Fixture
+  version: "1.0"
+  deterministic: true
+  mcp:
+    type: mcp-stdio
+    command:
+      - python
+      - "examples/mcp_server.py"
+    mode: auto
+    protocol_version: "2026-07-28"
+    probe_timeout_seconds: 1.5

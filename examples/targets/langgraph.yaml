@@ -1,0 +1,13 @@
+target:
+  schema_version: "1.0"
+  name: Local LangGraph Agent
+  version: "application-version"
+  policy_version: "policy-version"
+  agent:
+    type: langgraph
+    graph: "your_package.agent:graph"
+    factory: false
+    input_mode: messages
+    thread_id: auto
+    response:
+      messages_path: messages

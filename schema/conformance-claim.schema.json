@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:yofune:yasc:conformance-claim:1.0",
+  "title": "YASC Conformance Claim",
+  "type": "object",
+  "required": ["conformance_claim"],
+  "properties": {
+    "conformance_claim": {
+      "type": "object",
+      "required": ["schema_version", "claim_id", "yasc_version", "system", "scope", "control_results", "statement", "issued_at"],
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "claim_id": {"type": "string"},
+        "yasc_version": {"type": "string"},
+        "system": {"type": "object", "required": ["name"]},
+        "scope": {"type": "object"},
+        "profiles": {"type": "array", "items": {"type": "string"}},
+        "control_results": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["control_id", "status", "achieved_yal"],
+            "properties": {
+              "control_id": {"type": "string", "pattern": "^YAS-[0-9]{2}\\.[0-9]{2}$"},
+              "status": {"enum": ["pass", "fail", "partial", "inconclusive", "not-tested", "not-applicable"]},
+              "achieved_yal": {"enum": ["YAL-0", "YAL-1", "YAL-2", "YAL-3", "YAL-4"]},
+              "assurance_case_id": {"type": "string"}
+            }
+          }
+        },
+        "exclusions": {"type": "array", "items": {"type": "string"}},
+        "known_gaps": {"type": "array", "items": {"type": "string"}},
+        "statement": {"type": "string", "minLength": 1},
+        "issued_at": {"type": "string"},
+        "valid_until": {"type": "string"},
+        "revalidation_triggers": {"type": "array", "items": {"type": "string"}},
+        "issuer": {"type": "string"},
+        "reviewer": {"type": "string"},
+        "independence": {"enum": ["self-review", "independent-internal", "independent-external", "unspecified"]}
+      }
+    }
+  }
+}

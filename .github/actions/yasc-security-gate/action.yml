@@ -1,0 +1,54 @@
+name: YASC Security Gate
+description: Run YASC verification scenarios, collect evidence, evaluate the security gate, and generate assessment reports.
+inputs:
+  plan:
+    description: Verification plan path
+    required: true
+  target:
+    description: Target configuration path
+    required: true
+  policy:
+    description: Security gate policy path
+    required: true
+  scenarios:
+    description: Optional target-specific scenario file. Built-in scenarios are used when omitted.
+    required: false
+    default: ""
+  output-dir:
+    description: Directory for runs, evidence, gate result, and reports
+    required: false
+    default: build/yasc
+runs:
+  using: composite
+  steps:
+    - name: Install YASC harness
+      shell: bash
+      run: python -m pip install -e ".[pdf]"
+    - name: Validate plan and target
+      shell: bash
+      run: |
+        yasc plan-check "${{ inputs.plan }}"
+        yasc target-check "${{ inputs.target }}"
+    - name: Execute verification
+      shell: bash
+      run: |
+        mkdir -p "${{ inputs.output-dir }}/runs" "${{ inputs.output-dir }}/evidence"
+        EXTRA=()
+        if [ -n "${{ inputs.scenarios }}" ]; then EXTRA+=(--scenarios "${{ inputs.scenarios }}"); fi
+        yasc run --plan "${{ inputs.plan }}" --target "${{ inputs.target }}" \
+          --out "${{ inputs.output-dir }}/runs" --evidence "${{ inputs.output-dir }}/evidence" \
+          --summary "${{ inputs.output-dir }}/run-summary.json" "${EXTRA[@]}"
+    - name: Build assessment
+      shell: bash
+      run: yasc assess --plan "${{ inputs.plan }}" --runs "${{ inputs.output-dir }}/runs" --out "${{ inputs.output-dir }}/assessment.json"
+    - name: Evaluate gate and generate report
+      shell: bash
+      run: |
+        set +e
+        yasc gate --plan "${{ inputs.plan }}" --runs "${{ inputs.output-dir }}/runs" --policy "${{ inputs.policy }}" --out "${{ inputs.output-dir }}/gate.json"
+        GATE=$?
+        set -e
+        yasc report --plan "${{ inputs.plan }}" --runs "${{ inputs.output-dir }}/runs" \
+          --gate-result "${{ inputs.output-dir }}/gate.json" \
+          --html "${{ inputs.output-dir }}/assessment.html" --pdf "${{ inputs.output-dir }}/assessment.pdf"
+        exit "$GATE"

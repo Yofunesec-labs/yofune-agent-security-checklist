@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:yofune:yasc:verification-run:1.0",
+  "title": "YASC Verification Run",
+  "type": "object",
+  "required": [
+    "verification_run"
+  ],
+  "properties": {
+    "verification_run": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "run_id",
+        "test_id",
+        "system",
+        "environment",
+        "versions",
+        "trials",
+        "verdict",
+        "evidence_refs"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "run_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "test_id": {
+          "type": "string",
+          "pattern": "^YAT-[A-Z]+-[0-9]{3}$"
+        },
+        "control_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^YAS-[0-9]{2}\\.[0-9]{2}$"
+          }
+        },
+        "system": {
+          "type": "object",
+          "required": [
+            "name"
+          ]
+        },
+        "environment": {
+          "enum": [
+            "unit",
+            "integration",
+            "staging",
+            "production-safe"
+          ]
+        },
+        "scope": {
+          "type": "object"
+        },
+        "versions": {
+          "type": "object",
+          "required": [
+            "yasc"
+          ],
+          "properties": {
+            "yasc": {
+              "type": "string"
+            },
+            "application": {
+              "type": "string"
+            },
+            "model": {
+              "type": "string"
+            },
+            "prompt_config_hash": {
+              "type": "string"
+            },
+            "policy": {
+              "type": "string"
+            },
+            "tooling": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "determinism": {
+          "enum": [
+            "deterministic",
+            "stochastic",
+            "mixed",
+            "unknown"
+          ]
+        },
+        "trials": {
+          "type": "object",
+          "required": [
+            "n",
+            "security_failures"
+          ],
+          "properties": {
+            "n": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "security_failures": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "state_reset_between_trials": {
+              "type": "boolean"
+            },
+            "variant_set": {
+              "type": "string"
+            }
+          }
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail",
+            "partial",
+            "inconclusive"
+          ]
+        },
+        "observations": {
+          "type": "array"
+        },
+        "measurements": {
+          "type": "object"
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1
+        },
+        "integrity": {
+          "type": "object",
+          "properties": {
+            "collected_at": {
+              "type": "string"
+            },
+            "collector": {
+              "type": "string"
+            },
+            "artifact_hashes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "revalidation_triggers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "plan_id": {
+          "type": "string"
+        },
+        "oracle": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string"
+            },
+            "failure_condition": {
+              "type": "string"
+            },
+            "success_condition": {
+              "type": "string"
+            }
+          }
+        },
+        "quality": {
+          "type": "object",
+          "properties": {
+            "environment_fidelity": {
+              "enum": [
+                "unit",
+                "integration",
+                "staging",
+                "production-safe"
+              ]
+            },
+            "independence": {
+              "enum": [
+                "self-review",
+                "independent-internal",
+                "independent-external",
+                "unspecified"
+              ]
+            },
+            "oracle_strength": {
+              "enum": [
+                "model-output",
+                "application-observation",
+                "control-plane",
+                "downstream-side-effect",
+                "unspecified"
+              ]
+            },
+            "reproducibility_notes": {
+              "type": "string"
+            }
+          }
+        },
+        "evidence_manifest": {
+          "type": "string"
+        },
+        "started_at": {
+          "type": "string"
+        },
+        "completed_at": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

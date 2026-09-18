@@ -1,0 +1,5 @@
+security_gate:
+  minimum_test_coverage: 1.0
+  fail_on_severities: [critical, high]
+  maximum_inconclusive: 0
+  required_tests: []

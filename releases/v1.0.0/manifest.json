@@ -1,0 +1,22 @@
+{
+  "name": "Yofune Agent Security Checklist",
+  "version": "1.0.0",
+  "tag": "v1.0.0",
+  "release_date": "2026-09-18",
+  "reference_snapshot": "2026-09-18",
+  "publisher": "Chengdu Yofune Ariake Technology Co., Ltd.",
+  "maintainer": "Yofune Security Research",
+  "website": "https://yofunesec.com/",
+  "contact": "contact@yofunesec.com",
+  "baseline": {"domains": 10, "controls": 52, "verification_tests": 58, "profiles": 8},
+  "adapters": [
+    "mock-agent",
+    "http-agent",
+    "openai-responses",
+    "anthropic-messages",
+    "langgraph",
+    "crewai",
+    "mcp-stdio",
+    "mcp-http"
+  ]
+}

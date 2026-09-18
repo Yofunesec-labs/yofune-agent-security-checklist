@@ -1,0 +1,28 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"YASC Executable Scenarios",
+  "type":"object",
+  "required":["schema_version","scenarios"],
+  "properties":{
+    "schema_version":{"const":"1.0"},
+    "scenarios":{"type":"array","items":{"$ref":"#/$defs/scenario"}}
+  },
+  "$defs":{
+    "scenario":{
+      "type":"object",
+      "required":["test_id","mode"],
+      "properties":{
+        "test_id":{"type":"string","pattern":"^YAT-"},
+        "mode":{"enum":["automated","guided","manual"]},
+        "reason":{"type":"string"},
+        "scope":{"type":"string"},
+        "trials":{"type":"integer","minimum":1},
+        "reset_between_trials":{"type":"boolean"},
+        "variant_set":{"type":"string"},
+        "sensitivity":{"enum":["public","internal","confidential","restricted","unspecified"]},
+        "steps":{"type":"array","items":{"type":"object","required":["action"]}},
+        "assertions":{"type":"array","items":{"type":"object","required":["type"]}}
+      }
+    }
+  }
+}

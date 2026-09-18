@@ -1,0 +1,10 @@
+target:
+  schema_version: "1.0"
+  name: YASC Mock Secure Agent
+  version: "1.0"
+  model: deterministic-mock
+  policy_version: secure
+  deterministic: true
+  agent:
+    type: mock-agent
+    mode: secure

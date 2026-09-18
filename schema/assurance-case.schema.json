@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:yofune:yasc:assurance-case:1.0",
+  "title": "YASC Assurance Case",
+  "type": "object",
+  "required": [
+    "assurance_case"
+  ],
+  "properties": {
+    "assurance_case": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "claim_id",
+        "claim",
+        "scope",
+        "control_ids",
+        "verification_runs",
+        "evidence_refs",
+        "achieved_assurance",
+        "known_gaps",
+        "residual_risk"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "claim_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "claim": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scope": {
+          "type": "object"
+        },
+        "control_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^YAS-[0-9]{2}\\.[0-9]{2}$"
+          }
+        },
+        "threats": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "verification_runs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "known_gaps": {
+          "type": "array"
+        },
+        "residual_risk": {
+          "type": "string"
+        },
+        "achieved_assurance": {
+          "enum": [
+            "YAL-0",
+            "YAL-1",
+            "YAL-2",
+            "YAL-3",
+            "YAL-4"
+          ]
+        },
+        "assessed_at": {
+          "type": "string"
+        },
+        "valid_through": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "revalidation_triggers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reviewer": {
+          "type": "object"
+        },
+        "yasc_version": {
+          "type": "string"
+        },
+        "verification_plan": {
+          "type": "string"
+        },
+        "evidence_manifest": {
+          "type": "string"
+        },
+        "independence": {
+          "enum": [
+            "self-review",
+            "independent-internal",
+            "independent-external",
+            "unspecified"
+          ]
+        }
+      }
+    }
+  }
+}

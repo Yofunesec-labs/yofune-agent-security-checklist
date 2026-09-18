@@ -1,0 +1,17 @@
+name: Verification test
+description: Propose a reproducible YASC verification test
+title: "[Test] "
+labels: [verification-test]
+body:
+  - type: textarea
+    id: purpose
+    attributes: {label: Purpose, description: Which control boundary should this test falsify or validate?}
+    validations: {required: true}
+  - type: textarea
+    id: procedure
+    attributes: {label: Safe test procedure, description: Preconditions, steps, expected result, and rollback/containment.}
+    validations: {required: true}
+  - type: textarea
+    id: evidence
+    attributes: {label: Required evidence, description: What should be captured for independent review?}
+    validations: {required: true}

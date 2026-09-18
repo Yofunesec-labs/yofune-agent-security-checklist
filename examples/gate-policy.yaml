@@ -1,0 +1,11 @@
+security_gate:
+  minimum_test_coverage: 1.0
+  fail_on_severities: [critical, high]
+  maximum_inconclusive: 0
+  require_evidence_integrity: true
+  maximum_evidence_age_hours: 24
+  required_tests:
+    - YAT-INJECTION-001
+    - YAT-INJECTION-002
+    - YAT-INJECTION-004
+    - YAT-TOOL-001

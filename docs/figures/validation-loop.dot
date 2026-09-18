@@ -1,0 +1,15 @@
+digraph G {
+  graph [rankdir=TB, bgcolor="white", pad="0.25", nodesep="0.35", ranksep="0.42", fontname="DejaVu Sans"];
+  node [shape=box, style="rounded", fontname="DejaVu Sans", fontsize=12, color="#444444", width=3.8, height=0.6];
+  edge [fontname="DejaVu Sans", fontsize=10, color="#555555"];
+  scope [label="1. Scope\nassets, authority, trust boundaries"];
+  attack [label="2. Attack\nfailure path / adversary"];
+  control [label="3. Control\nenforcement point"];
+  verify [label="4. Verify\nnegative / adversarial / fault tests"];
+  evidence [label="5. Evidence\ntrace / decision / side effect"];
+  claim [label="6. Assurance Claim\nscope + YAL + gaps", penwidth=2];
+  change [label="Material Change\nmodel / policy / tool / data", shape=hexagon];
+  scope -> attack -> control -> verify -> evidence -> claim;
+  claim -> change [style=dashed, label="expires on"];
+  change -> scope [style=dashed, label="revalidate"];
+}

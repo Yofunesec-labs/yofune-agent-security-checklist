@@ -1,0 +1,20 @@
+name: Control proposal
+description: Propose a new or changed YASC control
+title: "[Control] "
+labels: [control-proposal]
+body:
+  - type: textarea
+    id: threat
+    attributes: {label: Threat / failure mode, description: What concrete security failure is not adequately covered?}
+    validations: {required: true}
+  - type: textarea
+    id: control
+    attributes: {label: Proposed control, description: State the enforceable requirement and pass condition.}
+    validations: {required: true}
+  - type: textarea
+    id: verify
+    attributes: {label: Verification and evidence, description: How can this be tested and what evidence proves it?}
+    validations: {required: true}
+  - type: textarea
+    id: refs
+    attributes: {label: Primary references, description: Add dated authoritative sources for external mappings where relevant.}

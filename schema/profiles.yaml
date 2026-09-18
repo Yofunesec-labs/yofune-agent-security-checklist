@@ -1,0 +1,225 @@
+metadata:
+  version: 1.0.0
+  snapshot_date: '2026-09-18'
+  method_revision: 2026.09-executable-1
+profiles:
+- id: browser-agent
+  title: Yofune Browser Agent Security Profile
+  target: agents that browse and interact with websites
+  baseline_controls:
+  - YAS-02.02
+  - YAS-02.04
+  - YAS-03.03
+  - YAS-04.03
+  - YAS-05.06
+  - YAS-09.01
+  - YAS-09.02
+  - YAS-10.01
+  - YAS-10.04
+  requirements:
+  - Treat page text, accessibility trees, DOM metadata, downloads, and visual content as untrusted.
+  - Isolate browser profiles, sessions, cookies, and credentials by user/tenant/task.
+  - Restrict navigation and download/upload destinations where business policy requires it.
+  - Require approval for purchases, messages, submissions, permission changes, and other consequential actions.
+  - Show target domain and concrete form/action details at approval time.
+  - Block hidden/obfuscated prompt injection from silently authorizing tools.
+  - Constrain file access exposed to upload controls.
+  - Apply data-loss policy before pasting/uploading sensitive content.
+  - Log navigation, important DOM/action targets, downloads/uploads, approvals, and final external effects.
+  - Detect suspicious domain changes, homographs, redirect chains, and unexpected login/consent pages.
+  - Provide cancellation and browser-session invalidation.
+  - Test indirect injection using pages that instruct the agent to ignore the user and exfiltrate data.
+- id: coding-agent
+  title: Yofune Coding Agent Security Profile
+  target: agents that read/write code or execute developer tooling
+  baseline_controls:
+  - YAS-02.02
+  - YAS-03.02
+  - YAS-04.03
+  - YAS-04.04
+  - YAS-05.04
+  - YAS-06.01
+  - YAS-06.02
+  - YAS-06.03
+  - YAS-06.04
+  - YAS-06.05
+  - YAS-07.02
+  - YAS-07.05
+  - YAS-09.01
+  - YAS-10.04
+  requirements:
+  - Treat repository content, issues, comments, READMEs, generated files, and dependency metadata as untrusted instructions.
+  - Run code/tests/builds in an isolated sandbox with no ambient production credentials.
+  - Restrict network egress and protect cloud/CI metadata endpoints.
+  - Use parameterized command execution; do not concatenate model text into shell commands.
+  - Gate package installation and dependency changes with provenance and policy.
+  - Require explicit approval for pushes, merges, releases, deployments, secret changes, and destructive operations.
+  - Separate read-only repository access from write/admin scopes.
+  - Prevent project content from writing durable global agent instructions/memory without validation.
+  - Scan generated patches/artifacts for secrets and unexpected binary/executable additions.
+  - Pin or approve toolchains, compilers, package registries, and MCP coding servers.
+  - Capture command, cwd, environment class, files changed, network destinations, and exit status.
+  - Support immediate cancellation and credential revocation.
+  - Test path traversal, symlink, workspace escape, and command injection.
+  - Do not allow an agent to self-approve security-sensitive changes it generated.
+- id: customer-service-agent
+  title: Yofune Customer Service Agent Security Profile
+  target: customer-facing support and service agents
+  baseline_controls:
+  - YAS-02.01
+  - YAS-03.04
+  - YAS-05.02
+  - YAS-05.06
+  - YAS-09.01
+  - YAS-09.05
+  - YAS-10.01
+  requirements:
+  - Authenticate the customer before exposing account-specific data or actions.
+  - Bind delegated authority to the authenticated customer, not the agent service account.
+  - Keep knowledge-base content and customer text separate from privileged policy.
+  - Require stronger approval/authentication for refunds, account changes, identity changes, or sensitive disclosure.
+  - Minimize customer data in prompts, logs, and long-term memory.
+  - Prevent one customer conversation from influencing another customer through shared memory.
+  - Make escalation to a human clear and preserve case context/evidence.
+  - Do not let persuasive agent language substitute for policy or verified account facts.
+  - Log outbound messages and account-changing actions with traceability.
+  - Test jailbreaks asking the agent to reveal other customers, policies, internal prompts, or perform unauthorized concessions.
+- id: data-agent
+  title: Yofune Data Agent Security Profile
+  target: agents that query, transform, or write structured data
+  baseline_controls:
+  - YAS-01.04
+  - YAS-03.02
+  - YAS-04.02
+  - YAS-04.03
+  - YAS-05.02
+  - YAS-05.06
+  - YAS-09.01
+  - YAS-10.02
+  requirements:
+  - Separate read, write, DDL/admin, export, and sharing privileges.
+  - Use query parameterization and constrained query APIs where feasible.
+  - Enforce row/column/tenant authorization outside model reasoning.
+  - Require approval for destructive writes, bulk changes, permission changes, or external exports.
+  - Apply result-size and export-volume limits.
+  - Mask/minimize sensitive columns before model context when full values are unnecessary.
+  - Capture query text/template, bound parameters, principal, row/byte counts, and destination.
+  - Test prompt-to-SQL injection, query expansion, and cross-tenant joins.
+  - Use transactions/rollback or compensation for agent-driven writes where possible.
+  - Prevent the agent from using higher-privilege service accounts to satisfy lower-privilege user requests.
+- id: enterprise-copilot
+  title: Yofune Enterprise Copilot Security Profile
+  target: enterprise copilots connected to SaaS, documents, messaging, and business systems
+  baseline_controls:
+  - YAS-01.02
+  - YAS-03.01
+  - YAS-03.02
+  - YAS-03.04
+  - YAS-04.03
+  - YAS-05.02
+  - YAS-05.06
+  - YAS-09.01
+  - YAS-10.01
+  - YAS-10.04
+  requirements:
+  - Use enterprise/workload identity and preserve the represented user principal.
+  - Intersect agent capability with user authorization; never widen access through the copilot service identity.
+  - Inventory every connected SaaS/data source and classify read/write/export capability.
+  - Apply tenant and document ACLs before data enters model context.
+  - Separate personal and enterprise identities/sessions to avoid cross-account data flow.
+  - Require approval for external send, sharing, permission changes, destructive edits, and administrative actions.
+  - Apply DLP/egress policy to generated messages, files, and tool calls.
+  - Keep connector/tool output untrusted for instruction purposes.
+  - Record connector, principal, resource, action, policy decision, and outcome.
+  - Provide centralized connector disablement and token revocation.
+  - Test indirect injection from email/docs/tickets that tries to trigger another connector.
+  - Review enterprise MCP/connector authorization against the current protocol and identity roadmap.
+- id: mcp
+  title: Yofune MCP Security Profile
+  target: Model Context Protocol 2026-07-28
+  baseline_controls:
+  - YAS-01.02
+  - YAS-01.03
+  - YAS-03.01
+  - YAS-03.02
+  - YAS-03.03
+  - YAS-03.04
+  - YAS-03.05
+  - YAS-04.01
+  - YAS-04.02
+  - YAS-04.03
+  - YAS-04.04
+  - YAS-04.05
+  - YAS-04.06
+  - YAS-07.02
+  - YAS-10.01
+  - YAS-10.04
+  requirements:
+  - Inventory every MCP server, endpoint, owner, origin, transport, tool list, and sensitivity classification.
+  - Authenticate server identity and restrict connections to approved endpoints/origins.
+  - For OAuth deployments, validate authorization issuer responses and bind credentials to the correct issuer/resource.
+  - Use least scopes; handle insufficient-scope step-up intentionally rather than granting broad standing scope.
+  - Prefer the client identity/registration mechanism required by the targeted specification; for 2026-07-28 review CIMD/client
+    metadata adoption and any compatibility fallback.
+  - Isolate credentials per server/resource and prevent model-visible exposure of bearer material.
+  - Authorize sensitive tools independently from model reasoning; per-server or per-tool authorization must match risk.
+  - Validate tool schemas and semantic constraints before side effects.
+  - Treat tool output as untrusted content; never promote it to privileged instruction solely because it came from MCP.
+  - Detect tool-name collisions, server substitution, unexpected tool-list changes, and unapproved capability drift.
+  - Apply egress/data policy to tool chaining and cross-server data movement.
+  - Record server identity, tool name, parameters (with safe redaction), auth decision, scope, result, trace ID, and
+    timestamp.
+  - Provide rapid server disablement, token revocation, and tool kill-switch controls.
+  - Track MCP specification/SDK changes as a supply-chain/security review trigger.
+  - Document enterprise identity/delegation assumptions separately; agent identity is an active area of MCP roadmap work.
+- id: multi-agent
+  title: Yofune Multi-Agent Security Profile
+  target: systems with agent-to-agent messaging or delegation
+  baseline_controls:
+  - YAS-03.04
+  - YAS-08.01
+  - YAS-08.02
+  - YAS-08.03
+  - YAS-08.04
+  - YAS-08.05
+  - YAS-10.02
+  - YAS-10.04
+  requirements:
+  - Assign verifiable identities to agent workloads.
+  - Authenticate message sender and destination.
+  - Define typed message schemas and reject unknown control fields.
+  - Preserve original source/provenance when forwarding information.
+  - Constrain delegated scopes to the parent’s authority and task.
+  - Limit recursion, delegation depth, retries, fan-out, compute, and financial budgets.
+  - Do not automatically trust a message because it came through a trusted intermediate agent.
+  - Record principal/delegation chains end-to-end.
+  - Isolate shared memory and tools by tenant/workflow.
+  - Use circuit breakers for repeated errors and conflicting agent loops.
+  - Define quorum/human escalation for high-impact multi-agent decisions where appropriate.
+  - Test spoofing, privilege amplification, taint laundering, and cascading failure.
+- id: rag
+  title: Yofune RAG Agent Security Profile
+  target: RAG/search/retrieval agents
+  baseline_controls:
+  - YAS-01.04
+  - YAS-02.02
+  - YAS-02.04
+  - YAS-05.01
+  - YAS-05.02
+  - YAS-05.04
+  - YAS-05.05
+  - YAS-05.06
+  - YAS-10.01
+  requirements:
+  - Classify every ingestion source and preserve provenance through chunking/embedding/indexing.
+  - Enforce document-level authorization before retrieved text enters model context.
+  - Test semantic and exact-match cross-tenant leakage.
+  - Treat retrieved instructions as untrusted content.
+  - Separate retrieval relevance from trust/authorization.
+  - Detect or contain poisoned documents and manipulated metadata.
+  - Record source identifiers, retrieval scores, filters, and authorization decisions.
+  - Minimize sensitive chunks and prevent unrelated context stuffing.
+  - Support removal/revocation with index/cache propagation.
+  - Use an evaluation corpus that includes indirect prompt injection in documents.
+  - Keep ingestion identities distinct from query identities.
+  - Define freshness/staleness behavior for security-sensitive records.

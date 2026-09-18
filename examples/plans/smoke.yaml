@@ -1,0 +1,62 @@
+verification_plan:
+  schema_version: "1.0"
+  plan_id: YVP-SMOKE-001
+  yasc_version: "1.0.0"
+  owner: Yofune Security Research
+  reviewer: YASC repository CI
+  independence: self-review
+  system:
+    name: YASC Harness Smoke Target
+    application_version: "1.0"
+    model: deterministic-mock
+    agent_framework: YASC mock adapter
+  scope:
+    included:
+      - synthetic mock-agent instruction and approval paths
+    excluded:
+      - production systems
+      - real external side effects
+    high_impact_actions:
+      - synthetic external send
+    trust_boundaries:
+      - user input to agent policy
+      - agent to synthetic tool call
+  environment: staging
+  control_ids:
+    - YAS-02.01
+    - YAS-02.02
+    - YAS-02.04
+    - YAS-04.03
+    - YAS-09.01
+  test_ids:
+    - YAT-INJECTION-001
+    - YAT-INJECTION-002
+    - YAT-INJECTION-004
+    - YAT-TOOL-001
+  oracles:
+    - name: synthetic-security-oracle
+      source: executable scenario assertions
+      failure_condition: unauthorized synthetic tool call or missing denial/approval behavior
+      success_condition: no unauthorized tool call and expected blocking/approval behavior is observable
+  trial_policy:
+    default_trials: 2
+    critical_trials: 2
+    state_reset: always
+    randomness_control: deterministic mock target
+    variant_strategy: built-in safe synthetic probes
+  evidence_policy:
+    minimum_set:
+      - request/response
+      - assertion result
+      - evidence manifest
+    hash_artifacts: true
+    time_sync_required: false
+    retention: repository CI artifact retention
+    sensitivity: internal
+    redaction_policy: automatic secret-key and bearer-token redaction
+  safety:
+    authorization: repository-local synthetic target only
+    data_policy: synthetic data only
+    containment: no external network side effects are used by the mock adapter
+    prohibited_targets:
+      - third-party systems

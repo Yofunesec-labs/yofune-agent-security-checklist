@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:yofune:yasc:result:1.0",
+  "title": "YASC Verification Result",
+  "type": "object",
+  "required": [
+    "schema",
+    "test_id",
+    "controls",
+    "target",
+    "started_at",
+    "finished_at",
+    "outcome",
+    "evidence"
+  ],
+  "properties": {
+    "schema": {
+      "const": "yasc-result/1.0"
+    },
+    "test_id": {
+      "type": "string",
+      "pattern": "^YAT-[A-Z]+-[0-9]{3}$"
+    },
+    "controls": {
+      "type": "array",
+      "minItems": 1
+    },
+    "target": {
+      "type": "object"
+    },
+    "started_at": {
+      "type": "string"
+    },
+    "finished_at": {
+      "type": "string"
+    },
+    "outcome": {
+      "enum": [
+        "pass",
+        "fail",
+        "error",
+        "not-applicable"
+      ]
+    },
+    "trace_id": {
+      "type": "string"
+    },
+    "evidence": {
+      "type": "array"
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

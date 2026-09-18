@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use YASC in research, assessments, or tooling, please cite this project and the exact version/snapshot."
+title: "Yofune Agent Security Checklist (YASC)"
+type: software
+authors:
+  - name: "Yofune Security Research"
+version: "1.0.0"
+date-released: 2026-09-18
+abstract: "An evidence-driven security baseline, verification method, and machine-readable control set for AI agents."
+
+url: "https://yofunesec.com/"

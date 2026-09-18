@@ -1,0 +1,13 @@
+{
+  "gate": "pass",
+  "plan_id": "YVP-SMOKE-001",
+  "planned_tests": 4,
+  "executed_tests": 4,
+  "test_coverage": 1.0,
+  "failures": [],
+  "inconclusive": [],
+  "missing_tests": [],
+  "integrity_failures": [],
+  "stale_runs": [],
+  "reasons": []
+}

@@ -1,0 +1,27 @@
+digraph G {
+  graph [rankdir=TB, bgcolor="white", pad="0.2", nodesep="0.45", ranksep="0.55", fontname="DejaVu Sans"];
+  node [shape=box, style="rounded", fontname="DejaVu Sans", fontsize=10, color="#444444"];
+  edge [fontname="DejaVu Sans", fontsize=9, color="#555555"];
+  human [label="Human / Operator"];
+  ext [label="External Content\nWeb / Email / Repo / Ticket"];
+  agent [label="Agent Runtime\nPlanner / Model / Orchestrator", penwidth=2];
+  memory [label="Memory / RAG"];
+  peer [label="Peer Agent(s)"];
+  policy [label="Policy / Authorization\nApproval / Identity", shape=hexagon];
+  mcp [label="Tool / MCP Gateway"];
+  db [label="SaaS / Database"];
+  shell [label="Code / Shell / Browser"];
+  telemetry [label="Telemetry / Evidence Store"];
+
+  human -> agent [label="task / approval"];
+  ext -> agent [label="untrusted content"];
+  agent -> memory [dir=both, label="read / write"];
+  agent -> peer [dir=both, label="delegate / message"];
+  agent -> policy [label="intent / requested action"];
+  policy -> mcp [label="permit / deny / require approval"];
+  mcp -> db [label="API / data action"];
+  mcp -> shell [label="execution"];
+  agent -> telemetry [style=dashed, label="trace"];
+  policy -> telemetry [style=dashed, label="decision"];
+  mcp -> telemetry [style=dashed, label="tool evidence"];
+}

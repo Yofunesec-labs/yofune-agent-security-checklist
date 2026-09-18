@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.DS_Store
+site/controls.json
+generated/
+dist/
+build/
+runs/
+evidence/
+*.egg-info/

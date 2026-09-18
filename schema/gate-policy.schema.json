@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "YASC CI Security Gate Policy",
+  "type": "object",
+  "required": [
+    "security_gate"
+  ],
+  "properties": {
+    "security_gate": {
+      "type": "object",
+      "required": [
+        "minimum_test_coverage",
+        "fail_on_severities"
+      ],
+      "properties": {
+        "minimum_test_coverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "fail_on_severities": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "critical",
+              "high",
+              "medium",
+              "low"
+            ]
+          }
+        },
+        "maximum_inconclusive": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "required_tests": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^YAT-"
+          }
+        },
+        "require_evidence_integrity": {
+          "type": "boolean"
+        },
+        "maximum_evidence_age_hours": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

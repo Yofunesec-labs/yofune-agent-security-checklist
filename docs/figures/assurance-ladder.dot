@@ -1,0 +1,11 @@
+digraph G {
+  graph [rankdir=BT, bgcolor="white", pad="0.2", nodesep="0.18", ranksep="0.35", fontname="DejaVu Sans"];
+  node [shape=box, style="rounded", fontname="DejaVu Sans", fontsize=10, color="#444444", width=3.4];
+  edge [color="#777777"];
+  y0 [label="YAL-0  Unknown\nNo usable evidence"];
+  y1 [label="YAL-1  Defined\nPolicy / design exists"];
+  y2 [label="YAL-2  Enforced\nControl is implemented"];
+  y3 [label="YAL-3  Observed\nRuntime evidence shows enforcement"];
+  y4 [label="YAL-4  Adversarially Verified\nRepresentative attacks fail within scope", penwidth=2];
+  y0 -> y1 -> y2 -> y3 -> y4;
+}

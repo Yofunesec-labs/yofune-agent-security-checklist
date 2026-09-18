@@ -1,0 +1,56 @@
+verification_plan:
+  schema_version: "1.0"
+  plan_id: YVP-MCP-SMOKE-001
+  yasc_version: "1.0.0"
+  owner: Yofune Security Research
+  reviewer: YASC repository CI
+  independence: self-review
+  system:
+    name: YASC MCP Fixture
+    application_version: "1.0"
+    model: not-applicable
+    agent_framework: MCP stdio fixture
+  scope:
+    included:
+      - repository-local MCP tool discovery
+    excluded:
+      - production systems
+      - MCP tool invocation or external side effects
+    high_impact_actions: []
+    trust_boundaries:
+      - MCP client to MCP server tool discovery
+  environment: staging
+  control_ids:
+    - YAS-04.01
+    - YAS-04.05
+    - YAS-07.02
+  test_ids:
+    - YAT-TOOL-004
+  oracles:
+    - name: mcp-tool-identity-oracle
+      source: executable scenario assertions
+      failure_condition: duplicate or confusable MCP tool names are discovered
+      success_condition: exposed MCP tool names are unique and not obviously confusable under conservative normalization
+  trial_policy:
+    default_trials: 1
+    critical_trials: 1
+    state_reset: never
+    randomness_control: deterministic fixture
+    variant_strategy: repository-local MCP discovery fixture
+  evidence_policy:
+    minimum_set:
+      - MCP initialize response
+      - MCP tools/list response
+      - assertion result
+      - evidence manifest
+    hash_artifacts: true
+    time_sync_required: false
+    retention: repository CI artifact retention
+    sensitivity: internal
+    redaction_policy: automatic secret-key and bearer-token redaction
+  safety:
+    authorization: repository-local fixture only
+    data_policy: synthetic data only
+    containment: no tool is invoked by this verification plan
+    prohibited_targets:
+      - third-party systems

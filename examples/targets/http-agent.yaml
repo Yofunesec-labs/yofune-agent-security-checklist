@@ -1,0 +1,18 @@
+target:
+  schema_version: "1.0"
+  name: Example HTTP Agent
+  version: "replace-me"
+  model: "replace-me"
+  policy_version: "replace-me"
+  agent:
+    type: http-agent
+    url: "https://agent.example.invalid/api/run"
+    headers:
+      Authorization: "Bearer ${YASC_AGENT_TOKEN}"
+    request:
+      input_field: message
+      static: {}
+    response:
+      text_path: output.text
+      tool_calls_path: trace.tool_calls
+      events_path: trace.events

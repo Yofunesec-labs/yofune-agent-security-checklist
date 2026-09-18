@@ -1,0 +1,11 @@
+target:
+  schema_version: "1.0"
+  name: Local CrewAI Crew
+  version: "application-version"
+  policy_version: "policy-version"
+  agent:
+    type: crewai
+    crew: "your_package.crew:create_crew"
+    factory: true
+    input_key: prompt
+    inputs: {}

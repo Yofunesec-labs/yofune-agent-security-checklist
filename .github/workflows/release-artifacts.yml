@@ -1,0 +1,82 @@
+name: Publish GitHub Release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/release-artifacts.yml'
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing tag to publish (for example v1.0.0)
+        required: true
+        default: v1.0.0
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || (github.ref_type == 'tag' && github.ref_name || 'v1.0.0') }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install document system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc libreoffice-writer fonts-noto-cjk
+      - name: Install Python build dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Validate standard and harness
+        run: make check
+      - name: Run executable Agent and MCP security gates
+        run: make security-gate
+      - name: Ensure v1.0.0 tag points at the complete release commit
+        if: github.ref_type != 'tag'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Yofune Security Research"
+          git config user.email "contact@yofunesec.com"
+          git tag -f -a v1.0.0 -m "YASC v1.0.0"
+          git push --force origin refs/tags/v1.0.0
+      - name: Build branded whitepapers
+        run: make whitepaper
+      - name: Package repository release
+        run: make package
+      - name: Verify release tag matches package version
+        shell: bash
+        run: |
+          test "$RELEASE_TAG" = "v1.0.0" || { echo "This release workflow currently packages v1.0.0; got $RELEASE_TAG"; exit 2; }
+      - name: Create or update GitHub Release
+        shell: bash
+        run: |
+          set -euo pipefail
+          ASSETS=(
+            "dist/yasc-v1.0.0.zip"
+            "dist/yasc-v1.0.0.sha256"
+            "whitepaper/YASC-Technical-Whitepaper-v1.0.0.pdf"
+            "whitepaper/YASC-Technical-Whitepaper-v1.0.0.zh-CN.pdf"
+          )
+          if [ -f "build/yasc/assessment.pdf" ]; then
+            cp build/yasc/assessment.pdf /tmp/YASC-Sample-Assessment-Report-v1.0.0.pdf
+            ASSETS+=("/tmp/YASC-Sample-Assessment-Report-v1.0.0.pdf")
+          fi
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release edit "$RELEASE_TAG" --title "YASC v1.0.0" --notes-file releases/v1.0.0/RELEASE_NOTES.md --latest
+            gh release upload "$RELEASE_TAG" "${ASSETS[@]}" --clobber
+          else
+            gh release create "$RELEASE_TAG" "${ASSETS[@]}" \
+              --title "YASC v1.0.0" \
+              --notes-file releases/v1.0.0/RELEASE_NOTES.md \
+              --verify-tag --latest
+          fi

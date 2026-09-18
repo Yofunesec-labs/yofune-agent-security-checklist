@@ -1,0 +1,79 @@
+name: YASC Security Gate Self-Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  secure-reference-target:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Run YASC security gate
+        uses: ./.github/actions/yasc-security-gate
+        with:
+          plan: examples/plans/smoke.yaml
+          target: examples/targets/mock-secure.yaml
+          policy: examples/gate-policy.yaml
+          output-dir: build/yasc
+      - name: Upload YASC evidence and reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: yasc-security-assessment
+          path: build/yasc
+          if-no-files-found: error
+
+  mcp-reference-target:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run MCP adapter security gate
+        uses: ./.github/actions/yasc-security-gate
+        with:
+          plan: examples/plans/mcp-smoke.yaml
+          target: examples/targets/mcp-stdio.yaml
+          policy: examples/gate-policy-mcp.yaml
+          scenarios: examples/scenarios/mcp.yaml
+          output-dir: build/yasc-mcp
+      - name: Upload MCP verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: yasc-mcp-security-assessment
+          path: build/yasc-mcp
+          if-no-files-found: error
+
+  insecure-reference-target-must-fail:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install harness
+        run: python -m pip install -e ".[pdf]"
+      - name: Execute intentionally insecure fixture
+        run: |
+          yasc run --plan examples/plans/smoke.yaml --target examples/targets/mock-insecure.yaml \
+            --out build/insecure/runs --evidence build/insecure/evidence
+      - name: Confirm the gate rejects the insecure fixture
+        shell: bash
+        run: |
+          set +e
+          yasc gate --plan examples/plans/smoke.yaml --runs build/insecure/runs --policy examples/gate-policy.yaml --out build/insecure/gate.json
+          CODE=$?
+          set -e
+          test "$CODE" -eq 10
